@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leo Hu — lowearthorbit.cc</title>
-<meta name="description" content="Leo Hu — projects in computer graphics, FPGA, engineering and chemistry. A Hong Kong Blender scene, a tactile-learning tool, an AI texture generator, and a beginner's guide to FPGA.">
-<meta property="og:title" content="Leo Hu — lowearthorbit.cc">
+<title>LowEarthOrbit — lowearthorbit.cc</title>
+<meta name="description" content="LowEarthOrbit — a gallery of work by Leo: Blender scenes, Blender add-ons, FPGA, and more.">
+<meta property="og:title" content="LowEarthOrbit">
 <meta property="og:image" content="assets/nathan_road.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,115 +20,160 @@
   <div class="bg-veil"></div>
 
   <nav class="glass">
-    <a class="brand" href="#top"><span class="orb-dot"></span>Leo&nbsp;Hu<span class="mono">/LEO</span></a>
+    <a class="brand" href="#top"><span class="orb-dot"></span>LowEarthOrbit<span class="mono">.cc</span></a>
     <div class="nav-links">
-      <a href="#work">Work</a>
-      <a href="fpga.html">FPGA Guide</a>
-      <a class="btn nav-cta" href="#nathan">Download scene</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#scenes">Scenes</a>
+      <a href="#addons">Add-ons</a>
+      <a href="fpga.html">FPGA</a>
+      <a class="btn nav-cta" href="#scenes">Download scene</a>
     </div>
   </nav>
 
   <header class="hero" id="top">
     <div class="wrap">
       <span class="tag reveal"><span class="dot"></span>lowearthorbit.cc</span>
-      <h1 class="reveal" style="margin-top:22px">Leo&nbsp;Hu<br><span class="grad">builds&nbsp;things.</span></h1>
-      <p class="lead reveal">Selected projects across graphics, hardware, and tools — plus a field guide for anyone starting out.</p>
+      <h1 class="reveal" style="margin-top:22px">Low&nbsp;Earth<br><span class="grad">Orbit</span></h1>
+      <p class="lead reveal">A gallery of things I build — graphics, hardware, and tools. Made by Leo.</p>
       <div class="chips reveal">
-        <span class="chip">Computer Graphics</span>
-        <span class="chip">FPGA</span>
-        <span class="chip">Engineering</span>
-        <span class="chip">Chemistry</span>
+        <span class="chip glass">Computer Graphics</span>
+        <span class="chip glass">FPGA</span>
+        <span class="chip glass">Engineering</span>
+        <span class="chip glass">Chemistry</span>
       </div>
       <div class="cta reveal">
-        <a class="btn btn-primary" href="#nathan">↓ Nathan Road scene</a>
-        <a class="btn btn-ghost" href="#work">View work</a>
+        <a class="btn btn-primary" href="#gallery">↓ Enter the gallery</a>
+        <a class="btn btn-ghost" href="fpga.html">Read the FPGA guide</a>
       </div>
     </div>
   </header>
 
-  <section id="work">
+  <section id="gallery">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="sec-num">// SELECTED WORK</div>
-        <h2 class="sec-title">Three things I made.</h2>
+        <div class="sec-num">// GALLERY</div>
+        <h2 class="sec-title">Gallery</h2>
+        <nav class="cat-nav">
+          <a href="#scenes">Blender Scenes</a>
+          <a href="#addons">Blender Add-ons</a>
+          <a href="#fpga">FPGA</a>
+          <a href="#others">Others</a>
+        </nav>
       </div>
 
-      <!-- 01 — Nathan Road: BIG static photo + small video -->
-      <article class="nathan reveal" id="nathan">
-        <div class="glass photo">
-          <img src="assets/nathan_road.png" alt="Nathan Road, Hong Kong — neon street at night with a red taxi">
-        </div>
-        <div class="glass panel">
-          <div class="sec-num">01 — 3D Scene</div>
-          <h3>Nathan Road, Hong Kong</h3>
-          <div class="role">Blender · Download &amp; remix</div>
-          <p>A rain-soaked, neon-drenched Hong Kong street at night — hand-built signage in real Chinese type, a red taxi tearing through the reflections, volumetric haze and a fluid-sim splash. The full <code>.blend</code> is yours to open.</p>
-          <div class="specs">
-            <span class="pill">Cycles</span><span class="pill">Fluid sim</span><span class="pill">Custom signage</span><span class="pill">~125 MB</span>
+      <!-- ===== Blender Scenes ===== -->
+      <div class="category" id="scenes">
+        <div class="cat-label reveal"><span class="ix">01</span><h3>Blender Scenes</h3><span class="rule"></span></div>
+        <article class="nathan reveal">
+          <div class="glass photo">
+            <img src="assets/nathan_road.png" alt="Nathan Road, Hong Kong — neon street at night with a red taxi">
           </div>
-          <div class="video-row">
-            <div class="video-mini">
-              <video autoplay muted loop playsinline>
-                <source src="assets/nathan_video.mp4" type="video/mp4">
-              </video>
+          <div class="glass panel">
+            <h3>Nathan Road, Hong Kong</h3>
+            <div class="role">Blender · Download &amp; remix</div>
+            <p>A rain-soaked, neon-drenched Hong Kong street at night — hand-built signage in real Chinese type, a red taxi tearing through the reflections, volumetric haze and a fluid-sim splash. The full <code>.blend</code> is yours to open.</p>
+            <div class="specs">
+              <span class="pill">Cycles</span><span class="pill">Fluid sim</span><span class="pill">Custom signage</span><span class="pill">~125 MB</span>
             </div>
-            <div class="video-cap"><b>Motion loop</b>The same scene, animated — rain, traffic and flicker.</div>
-          </div>
-          <div class="acts">
-            <a class="btn btn-primary" href="https://github.com/leoeohu/leoeohu.github.io/releases/download/nathan-road-v1/nathan_road_hk.blend">↓ Download .blend</a>
-            <a class="btn btn-ghost" href="https://github.com/leoeohu/leoeohu.github.io/releases/tag/nathan-road-v1">Release notes</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- 02 + 03 -->
-      <div class="cards">
-        <article class="glass card reveal">
-          <div class="thumb"><img src="assets/tactile_relief.png" alt="Tactile relief plate preview"></div>
-          <div class="body">
-            <div class="role">02 — Accessibility</div>
-            <h3>Tactile Learning Tool</h3>
-            <p>Turns an idea or image into a 3D-printable <strong>tactile relief plate</strong> for blind learners — plus standard-spaced <strong>Braille / 盲文</strong> labels. Exports a watertight, support-free STL.</p>
+            <div class="video-row">
+              <div class="video-mini">
+                <video autoplay muted loop playsinline>
+                  <source src="assets/nathan_video.mp4" type="video/mp4">
+                </video>
+              </div>
+              <div class="video-cap"><b>Motion loop</b>The same scene, animated — rain, traffic and flicker.</div>
+            </div>
             <div class="acts">
-              <a class="btn btn-blue" href="https://github.com/leoeohu/tactile-braille-maker">↗ Access on GitHub</a>
+              <a class="btn btn-primary" href="https://github.com/leoeohu/leoeohu.github.io/releases/download/nathan-road-v1/nathan_road_hk.blend">↓ Download .blend</a>
+              <a class="btn btn-ghost" href="https://github.com/leoeohu/leoeohu.github.io/releases/tag/nathan-road-v1">Release notes</a>
             </div>
-          </div>
-        </article>
-
-        <article class="glass card reveal">
-          <div class="body" style="padding-bottom:18px">
-            <div class="role">03 — Blender add-on</div>
-            <h3>AI Texture Generator</h3>
-            <p>Turns a text prompt into a seamless, tileable texture and drops it onto a material. Four samples it generated:</p>
-          </div>
-          <div class="body" style="padding-top:0">
-            <div class="tex-grid">
-              <img src="assets/tex_copper.png" alt="generated copper texture">
-              <img src="assets/tex_marble.png" alt="generated marble texture">
-              <img src="assets/tex_brick.png" alt="generated brick texture">
-              <img src="assets/tex_fabric.png" alt="generated linen texture">
-            </div>
-            <div class="note">// VIEW / INTRODUCTION ONLY — NOT YET RELEASED</div>
           </div>
         </article>
       </div>
-    </div>
-  </section>
 
-  <!-- FPGA guide -->
-  <section id="guide">
-    <div class="wrap">
-      <article class="glass guide-banner reveal">
-        <div>
-          <div class="sec-num">// FIELD GUIDE</div>
-          <h3>A Beginner's Guide to FPGA</h3>
-          <p>What an FPGA actually is, how it differs from a CPU, the tools you need, and a first <code>blink</code> project — written for people starting from zero.</p>
-          <div class="circuit">&lt;LUT&gt; ── &lt;flip-flop&gt; ── &lt;routing fabric&gt; ── &lt;I/O&gt;</div>
+      <!-- ===== Blender Add-ons ===== -->
+      <div class="category" id="addons">
+        <div class="cat-label reveal"><span class="ix">02</span><h3>Blender Add-ons</h3><span class="rule"></span></div>
+        <div class="cards">
+
+          <article class="glass card reveal">
+            <div class="mascot"><img src="assets/blenderchan.png" alt="Blender-chan mascot"></div>
+            <div class="body">
+              <div class="row">
+                <div class="role">Add-on · Mascot</div>
+                <span class="status"><span class="blink"></span>Still working</span>
+              </div>
+              <h3>Blender-chan</h3>
+              <p>An AI desktop mascot living inside Blender — chat with her, pose her, and let her keep you company while you work. Sprites are baked from a full character rig. Actively in development.</p>
+              <div class="acts"><a class="btn btn-ghost" href="https://github.com/leoeohu">↗ Follow progress</a></div>
+            </div>
+          </article>
+
+          <article class="glass card reveal">
+            <div class="body" style="padding-bottom:14px">
+              <div class="row">
+                <div class="role">Add-on · Materials</div>
+                <span class="status"><span class="blink"></span>Preview</span>
+              </div>
+              <h3>AI Texture Generator</h3>
+              <p>Turns a text prompt into a seamless, tileable texture and drops it onto a material. Four samples it made:</p>
+            </div>
+            <div class="body" style="padding-top:0">
+              <div class="tex-grid">
+                <img src="assets/tex_copper.png" alt="generated copper texture">
+                <img src="assets/tex_marble.png" alt="generated marble texture">
+                <img src="assets/tex_brick.png" alt="generated brick texture">
+                <img src="assets/tex_fabric.png" alt="generated linen texture">
+              </div>
+              <div class="note">// VIEW / INTRODUCTION ONLY — NOT YET RELEASED</div>
+            </div>
+          </article>
+
         </div>
-        <div>
-          <a class="btn btn-blue" href="fpga.html">Read the guide →</a>
+      </div>
+
+      <!-- ===== FPGA ===== -->
+      <div class="category" id="fpga">
+        <div class="cat-label reveal"><span class="ix">03</span><h3>FPGA</h3><span class="rule"></span></div>
+        <article class="glass guide-banner reveal">
+          <div>
+            <div class="role" style="font-family:var(--mono);font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--blue)">Field Guide</div>
+            <h3>A Beginner's Guide to FPGA</h3>
+            <p>What an FPGA actually is, how it differs from a CPU, the tools you need, and a first <code>blink</code> project — written for people starting from zero.</p>
+            <div class="circuit">&lt;LUT&gt; ── &lt;flip-flop&gt; ── &lt;routing fabric&gt; ── &lt;I/O&gt;</div>
+          </div>
+          <div><a class="btn btn-blue" href="fpga.html">Read the guide →</a></div>
+        </article>
+      </div>
+
+      <!-- ===== Others ===== -->
+      <div class="category" id="others">
+        <div class="cat-label reveal"><span class="ix">04</span><h3>Others</h3><span class="rule"></span></div>
+        <div class="cards">
+          <article class="glass card reveal">
+            <div class="thumb"><img src="assets/tactile_relief.png" alt="Tactile relief plate preview"></div>
+            <div class="body">
+              <div class="row">
+                <div class="role">Accessibility · Open tool</div>
+                <span class="status live"><span class="blink"></span>Available</span>
+              </div>
+              <h3>Tactile Learning Tool</h3>
+              <p>Turns an idea or image into a 3D-printable <strong>tactile relief plate</strong> for blind learners — plus standard-spaced <strong>Braille / 盲文</strong> labels. Exports a watertight, support-free STL.</p>
+              <div class="acts"><a class="btn btn-blue" href="https://github.com/leoeohu/tactile-braille-maker">↗ Access on GitHub</a></div>
+            </div>
+          </article>
+
+          <article class="glass card reveal">
+            <div class="body">
+              <div class="role">More · Coming soon</div>
+              <h3>Engineering &amp; Chemistry</h3>
+              <p>Hardware builds, 3D-printed parts and lab experiments will land here as they're finished. Watch this space.</p>
+              <div class="acts"><a class="btn btn-ghost" href="https://github.com/leoeohu">↗ GitHub</a></div>
+            </div>
+          </article>
         </div>
-      </article>
+      </div>
+
     </div>
   </section>
 
@@ -140,7 +185,7 @@
         <a href="https://github.com/leoeohu">GitHub</a>
         <a href="fpga.html">FPGA Guide</a>
       </div>
-      <div class="fine">© <span id="year"></span> LEO · LOW EARTH ORBIT · lowearthorbit.cc</div>
+      <div class="fine">© <span id="year"></span> LOWEARTHORBIT · lowearthorbit.cc</div>
     </div>
   </footer>
 
