@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Beginner's Guide to FPGA — lowearthorbit.cc</title>
+<meta name="description" content="A from-zero beginner's guide to FPGAs: what they are, how they differ from CPUs, the toolchain, choosing a board, and your first blink-an-LED project in Verilog.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="bg-orb blue"></div>
+  <div class="bg-orb orange"></div>
+  <div class="bg-orb blue2"></div>
+  <div class="bg-grid"></div>
+  <div class="bg-veil"></div>
+
+  <nav class="glass">
+    <a class="brand" href="index.html"><span class="orb-dot"></span>Leo&nbsp;Hu<span class="mono">/LEO</span></a>
+    <div class="nav-links">
+      <a href="index.html#work">Work</a>
+      <a href="index.html">Home</a>
+      <a class="btn nav-cta" href="index.html#nathan">Download scene</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <div class="article">
+
+      <div class="reveal">
+        <span class="tag"><span class="dot"></span>Field Guide</span>
+        <h1 style="font-size:clamp(34px,6vw,56px);font-weight:600;margin-top:18px">A Beginner's<br><span class="grad">Guide to FPGA</span></h1>
+        <p class="lead" style="margin-top:16px">Field-Programmable Gate Arrays sound intimidating, but the core idea is simple: a chip whose <strong style="color:#fff">circuitry you get to define</strong>. Here's everything you need to go from zero to a blinking LED.</p>
+        <div class="toc">
+          <a href="#what">01 What it is</a>
+          <a href="#vs">02 FPGA vs CPU</a>
+          <a href="#inside">03 Inside the chip</a>
+          <a href="#hdl">04 HDL</a>
+          <a href="#flow">05 The toolchain</a>
+          <a href="#board">06 Pick a board</a>
+          <a href="#blink">07 First project</a>
+          <a href="#next">08 Where next</a>
+        </div>
+      </div>
+
+      <section class="glass reveal" id="what">
+        <h2><span class="n">01</span>What is an FPGA?</h2>
+        <p>A normal processor (CPU) has <em>fixed</em> hardware. You can't change the transistors — you can only feed it different software. An <strong>FPGA</strong> is the opposite: it's a sea of generic logic blocks and wires that you <strong>configure into whatever digital circuit you want</strong>. Want a 16-bit adder? A video decoder? A custom CPU of your own design? You describe the circuit, load it onto the FPGA, and the chip physically <em>becomes</em> that circuit.</p>
+        <p>"Field-programmable" means you reconfigure it after manufacturing — at your desk, as many times as you like. "Gate array" means it's built from a regular grid of logic elements.</p>
+        <div class="callout"><b>One-line mental model:</b> a CPU <i>runs</i> instructions one after another; an FPGA <i>becomes</i> hardware that does everything at once, in parallel.</div>
+      </section>
+
+      <section class="glass reveal" id="vs">
+        <h2><span class="n">02</span>FPGA vs CPU vs GPU vs ASIC</h2>
+        <ul>
+          <li><strong>CPU</strong> — fixed silicon, runs software sequentially. Flexible, easy to program, but does one thing at a time per core.</li>
+          <li><strong>GPU</strong> — thousands of identical cores for the same operation on lots of data. Great for graphics/ML, still fixed hardware.</li>
+          <li><strong>FPGA</strong> — reconfigurable hardware. True parallelism, deterministic timing (great for real-time signal processing, low-latency I/O), but harder to design and slower clock speeds than a CPU.</li>
+          <li><strong>ASIC</strong> — a circuit baked permanently into custom silicon. Fastest and cheapest <em>at huge volume</em>, but you can never change it and it costs a fortune to make. FPGAs are often used to prototype ASICs.</li>
+        </ul>
+        <div class="callout"><b>When an FPGA wins:</b> when you need many things happening simultaneously with precise timing — e.g. processing a camera feed pixel-by-pixel, software-defined radio, or custom hardware acceleration.</div>
+      </section>
+
+      <section class="glass reveal" id="inside">
+        <h2><span class="n">03</span>What's inside the chip</h2>
+        <p>You don't wire up individual transistors. An FPGA gives you a few repeating building blocks:</p>
+        <ul>
+          <li><strong>LUTs (Look-Up Tables)</strong> — tiny memories that implement <em>any</em> logic function of a few inputs. These are the fundamental gates of the FPGA world.</li>
+          <li><strong>Flip-flops</strong> — 1-bit memory cells that hold state between clock ticks. LUT + flip-flop together = a "logic cell" (Xilinx calls a cluster a CLB, Intel/Altera an ALM).</li>
+          <li><strong>Routing fabric</strong> — the programmable wires and switches that connect everything. Most of the chip is actually routing.</li>
+          <li><strong>Block RAM (BRAM)</strong> — chunks of on-chip memory for buffers and FIFOs.</li>
+          <li><strong>DSP slices</strong> — hardened multiply-accumulate units for fast math.</li>
+          <li><strong>I/O blocks &amp; clock management (PLLs)</strong> — drive pins and generate/clean clock signals.</li>
+        </ul>
+        <p>When you "program" an FPGA you're really setting millions of these little switches — that configuration is called the <strong>bitstream</strong>.</p>
+      </section>
+
+      <section class="glass reveal" id="hdl">
+        <h2><span class="n">04</span>How you describe a circuit: HDL</h2>
+        <p>You don't draw schematics (mostly). You write a <strong>Hardware Description Language</strong>. The two big ones:</p>
+        <ul>
+          <li><strong>Verilog</strong> / SystemVerilog — C-like syntax, very popular, great for beginners.</li>
+          <li><strong>VHDL</strong> — more verbose and strict, common in Europe and aerospace/defense.</li>
+        </ul>
+        <p>The crucial mindset shift: <strong>HDL is not a program that runs top to bottom.</strong> It <em>describes hardware that all exists at once</em>. When you write two assignments, they happen <em>simultaneously</em>, not in order. Beginners trip on this constantly — keep reminding yourself you're describing wires and gates, not steps.</p>
+        <div class="callout"><b>Two kinds of logic:</b> <i>combinational</i> (output depends only on current inputs — pure gates) and <i>sequential</i> (output depends on a clock and stored state — flip-flops). Almost every design mixes both.</div>
+      </section>
+
+      <section class="glass reveal" id="flow">
+        <h2><span class="n">05</span>The toolchain — from code to chip</h2>
+        <p>Getting your HDL onto the board goes through a pipeline. The vendor IDE handles most of it with one button, but it helps to know the stages:</p>
+        <ol class="steps">
+          <li><b>Write HDL</b> — your Verilog/VHDL design + a constraints file mapping signals to physical pins.</li>
+          <li><b>Simulate</b> — test the logic on your PC <em>before</em> touching hardware (e.g. with Verilator or the built-in simulator). Catches most bugs cheaply.</li>
+          <li><b>Synthesis</b> — the tool translates your HDL into a netlist of LUTs, flip-flops and wires.</li>
+          <li><b>Place &amp; route</b> — it decides which physical logic cells to use and how to wire them, while meeting your timing requirements.</li>
+          <li><b>Generate bitstream</b> — the final configuration file.</li>
+          <li><b>Program the FPGA</b> — load the bitstream over USB/JTAG. The chip becomes your circuit instantly.</li>
+        </ol>
+        <p><strong>Tools:</strong> AMD/Xilinx use <code>Vivado</code>, Intel/Altera use <code>Quartus</code>, Lattice use <code>Radiant</code>/<code>Diamond</code>. There's also a fully <strong>open-source flow</strong> — <code>Yosys</code> + <code>nextpnr</code> — which is fantastic for hobbyists and works great with Lattice iCE40/ECP5 boards.</p>
+      </section>
+
+      <section class="glass reveal" id="board">
+        <h2><span class="n">06</span>Picking your first board</h2>
+        <p>Don't overbuy. A small, well-documented board with a friendly toolchain beats a powerful one you can't get started on.</p>
+        <ul>
+          <li><strong>iCEBreaker</strong> or <strong>TinyFPGA / Icebreaker (iCE40)</strong> — cheap, fully open-source toolchain (Yosys/nextpnr). Great hacker choice.</li>
+          <li><strong>Digilent Basys 3 / Arty A7 (Xilinx Artix-7)</strong> — the classic university board; tons of tutorials, switches, LEDs, displays. Uses Vivado.</li>
+          <li><strong>Terasic DE10-Lite / DE0 (Intel MAX 10)</strong> — popular in Altera/Quartus courses.</li>
+          <li><strong>Tang Nano (Gowin)</strong> — very inexpensive, increasingly good open-source support.</li>
+        </ul>
+        <div class="callout"><b>My suggestion:</b> if you like open tools and tinkering, get an <b>iCE40</b> board (Yosys flow). If you're following a university course or want the widest tutorial coverage, get a <b>Basys 3 / Arty</b>.</div>
+      </section>
+
+      <section class="glass reveal" id="blink">
+        <h2><span class="n">07</span>Your first project: blink an LED</h2>
+        <p>"Blinky" is the <em>hello world</em> of hardware. The idea: take the board's clock (say 12&nbsp;MHz), count its ticks, and toggle an LED every time the counter overflows — giving a visible ~1&nbsp;Hz blink. In Verilog:</p>
+        <pre><code>module blink (
+    input  wire clk,        // 12 MHz board clock
+    output reg  led
+);
+    reg [23:0] counter = 0; // 24-bit counter
+
+    always @(posedge clk) begin
+        counter &lt;= counter + 1;   // increment every clock tick
+        if (counter == 0)         // overflowed (~0.7 s at 12 MHz)
+            led &lt;= ~led;          // flip the LED
+    end
+endmodule</code></pre>
+        <p>You also write a tiny <strong>constraints file</strong> telling the tool which physical pins <code>clk</code> and <code>led</code> connect to (this is board-specific). Then: synthesize → place &amp; route → bitstream → program. The LED blinks. Congratulations — you just designed hardware.</p>
+        <div class="callout"><b>Notice the <code>&lt;=</code>:</b> that's a <i>non-blocking</i> assignment, used for clocked (sequential) logic. The whole <code>always @(posedge clk)</code> block describes a bank of flip-flops updating together on each rising clock edge — not lines running one-by-one.</div>
+      </section>
+
+      <section class="glass reveal" id="next">
+        <h2><span class="n">08</span>Where to go next</h2>
+        <ul>
+          <li>Blink → debounce a button → drive a 7-segment display → UART "hello world" → VGA pattern → a simple state machine.</li>
+          <li>Learn <strong>timing</strong>: clock domains, setup/hold, and why "it works in simulation but not on the board" usually means a timing or constraints problem.</li>
+          <li>Build a <strong>finite state machine</strong> — the backbone of almost every real design.</li>
+          <li>Eventually: implement a small <strong>soft CPU</strong> (e.g. a RISC-V core) — the rite of passage that ties everything together.</li>
+        </ul>
+        <p><strong>Free resources:</strong> <em>nandland.com</em> and <em>fpga4fun.com</em> for gentle tutorials, <em>HDLBits</em> for Verilog practice problems, and Digilent's reference docs if you have an Arty/Basys.</p>
+        <div class="callout"><b>The one habit that matters most:</b> simulate before you synthesize. Hardware bugs are invisible; a testbench makes them visible.</div>
+      </section>
+
+      <p style="text-align:center;margin-top:36px">
+        <a class="btn btn-ghost" href="index.html">← Back to home</a>
+      </p>
+    </div>
+  </div>
+
+  <footer id="contact">
+    <div class="wrap">
+      <div class="big">Let's make something.</div>
+      <div class="links">
+        <a href="mailto:leoh949494@gmail.com">Email</a>
+        <a href="https://github.com/leoeohu">GitHub</a>
+        <a href="index.html">Home</a>
+      </div>
+      <div class="fine">© <span id="year"></span> LEO · LOW EARTH ORBIT · lowearthorbit.cc</div>
+    </div>
+  </footer>
+
+  <script src="assets/main.js"></script>
+</body>
+</html>
