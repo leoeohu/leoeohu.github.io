@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leo Hu — Blender Add-ons & Projects</title>
+<meta name="description" content="Blender add-ons, 3D tools, and accessibility projects by Leo Hu.">
+<style>
+  :root {
+    --bg: #0b0d10;
+    --panel: #14171c;
+    --panel-hover: #1b1f26;
+    --border: #262b33;
+    --text: #e6e9ef;
+    --muted: #8b94a3;
+    --accent: #6c5cff;
+    --accent-soft: rgba(108, 92, 255, 0.15);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+
+  /* Header */
+  header { padding: 96px 0 48px; }
+  .eyebrow {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  h1 { font-size: 44px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
+  .tagline { color: var(--muted); font-size: 19px; margin-top: 16px; max-width: 620px; }
+  .links { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .links a {
+    color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500;
+    padding: 9px 18px; border: 1px solid var(--border); border-radius: 999px;
+    transition: border-color .15s, background .15s;
+  }
+  .links a:hover { border-color: var(--accent); background: var(--accent-soft); }
+
+  /* Sections */
+  section { padding: 32px 0; }
+  h2 {
+    font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--muted); font-weight: 600; margin-bottom: 24px;
+  }
+
+  /* Project cards */
+  .grid { display: grid; gap: 16px; }
+  .card {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+    padding: 24px; transition: background .15s, border-color .15s, transform .15s;
+  }
+  .card:hover { background: var(--panel-hover); border-color: #333a45; transform: translateY(-2px); }
+  .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .card h3 { font-size: 20px; font-weight: 650; }
+  .badge {
+    font-size: 12px; font-weight: 600; color: var(--accent);
+    background: var(--accent-soft); padding: 3px 10px; border-radius: 999px; white-space: nowrap;
+  }
+  .card p { color: var(--muted); margin-top: 10px; font-size: 15px; }
+  .card-actions { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .card-actions a {
+    font-size: 13px; font-weight: 600; text-decoration: none; color: var(--text);
+    padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border);
+    transition: border-color .15s, background .15s;
+  }
+  .card-actions a:hover { border-color: var(--accent); background: var(--accent-soft); }
+  .card-actions a.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .card-actions a.primary:hover { filter: brightness(1.1); }
+
+  footer { padding: 56px 0 80px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--border); margin-top: 32px; }
+  footer a { color: var(--muted); }
+
+  @media (max-width: 560px) {
+    header { padding: 64px 0 32px; }
+    h1 { font-size: 34px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">Blender Add-ons &amp; 3D Tools</div>
+      <h1>Hi, I'm Leo Hu.</h1>
+      <p class="tagline">
+        I build Blender add-ons, 3D pipeline tools, and accessibility projects —
+        from AI mascot overlays to tactile learning aids for blind students.
+      </p>
+      <div class="links">
+        <a href="https://github.com/leoeohu">GitHub</a>
+        <a href="mailto:leoh949494@gmail.com">Email</a>
+      </div>
+    </header>
+
+    <section>
+      <h2>Projects</h2>
+      <div class="grid">
+
+        <article class="card">
+          <div class="card-head">
+            <h3>Blender-chan</h3>
+            <span class="badge">Blender Add-on</span>
+          </div>
+          <p>
+            An AI mascot that lives as a 2D-sprite overlay across all your Blender projects.
+            A modal + supervisor system drives sprites baked straight from a character rig.
+          </p>
+          <div class="card-actions">
+            <a class="primary" href="#">Download</a>
+            <a href="#">Source</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h3>Tactile Learning Tool</h3>
+            <span class="badge">Accessibility</span>
+          </div>
+          <p>
+            Turns an idea or image into a 3D-printable relief STL, plus generated Braille
+            label tiles — built to make visual material tangible for blind learners.
+          </p>
+          <div class="card-actions">
+            <a class="primary" href="#">Download</a>
+            <a href="#">Source</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h3>Cyber Elevator Scene</h3>
+            <span class="badge">3D / Render</span>
+          </div>
+          <p>
+            A cinematic ascent scene with volumetric smog, a custom camera driver, and a
+            neon-lit cyberpunk shaft. Built in Blender.
+          </p>
+          <div class="card-actions">
+            <a href="#">View renders</a>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-head">
+            <h3>Elephant Charity Bead</h3>
+            <span class="badge">3D Print</span>
+          </div>
+          <p>
+            A printable barrel charm bead with a wrapped elephant relief — designed for a
+            charity bracelet. STL included.
+          </p>
+          <div class="card-actions">
+            <a class="primary" href="#">Download STL</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Leo Hu · Built as a static site, hosted on GitHub Pages.
+    </footer>
+  </div>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
