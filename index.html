@@ -3,173 +3,335 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Leo Hu — Blender Add-ons & Projects</title>
-<meta name="description" content="Blender add-ons, 3D tools, and accessibility projects by Leo Hu.">
+<title>Leo Hu — CG · FPGA · Engineering · Chemistry</title>
+<meta name="description" content="Leo Hu (LEO / lowearthorbit.cc) — a high-school maker working across computer graphics, FPGA, engineering, and chemistry. Blender scenes, a tactile-learning tool for blind students, and an AI texture generator.">
+<meta property="og:title" content="Leo Hu — lowearthorbit.cc">
+<meta property="og:description" content="High-school maker: computer graphics, FPGA, engineering, chemistry.">
+<meta property="og:image" content="assets/nathan_road.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0b0d10;
-    --panel: #14171c;
-    --panel-hover: #1b1f26;
-    --border: #262b33;
-    --text: #e6e9ef;
-    --muted: #8b94a3;
-    --accent: #6c5cff;
-    --accent-soft: rgba(108, 92, 255, 0.15);
+  :root{
+    --night-0:#050a1c;
+    --night-1:#0a1430;
+    --night-2:#0e1d44;
+    --panel:rgba(16,28,62,.55);
+    --panel-solid:#0d1838;
+    --border:rgba(120,160,255,.16);
+    --border-hover:rgba(120,170,255,.45);
+    --text:#eaf0ff;
+    --muted:#9fb1d8;
+    --blue:#4ea1ff;
+    --blue-deep:#2a6fd6;
+    --orange:#ff9d3c;
+    --orange-soft:#ffc879;
+    --gold:#ffd27a;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    line-height: 1.6;
-    -webkit-font-smoothing: antialiased;
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--night-0);
+    color:var(--text);
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
   }
-  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+  .serif{font-family:'Playfair Display',Georgia,serif}
 
-  /* Header */
-  header { padding: 96px 0 48px; }
-  .eyebrow {
-    color: var(--accent);
-    font-weight: 600;
-    font-size: 14px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  h1 { font-size: 44px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
-  .tagline { color: var(--muted); font-size: 19px; margin-top: 16px; max-width: 620px; }
-  .links { margin-top: 28px; display: flex; gap: 12px; flex-wrap: wrap; }
-  .links a {
-    color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500;
-    padding: 9px 18px; border: 1px solid var(--border); border-radius: 999px;
-    transition: border-color .15s, background .15s;
-  }
-  .links a:hover { border-color: var(--accent); background: var(--accent-soft); }
+  /* ---------- animated starry-night background ---------- */
+  #sky{position:fixed;inset:0;z-index:-3;background:
+        radial-gradient(120% 90% at 80% -10%, #163a78 0%, transparent 55%),
+        radial-gradient(120% 100% at 10% 110%, #1a2e63 0%, transparent 55%),
+        linear-gradient(180deg, var(--night-1) 0%, var(--night-0) 60%, #04081a 100%);}
+  #stars{position:fixed;inset:0;z-index:-2;}
+  /* Van Gogh swirls */
+  .swirl{position:fixed;border-radius:50%;filter:blur(60px);opacity:.5;z-index:-2;mix-blend-mode:screen;pointer-events:none;}
+  .swirl.a{width:60vw;height:60vw;left:-15vw;top:-10vw;
+    background:conic-gradient(from 0deg,#1b4a8a,#2a6fd6,#0e1d44,#3f7fd6,#1b4a8a);
+    animation:spin 60s linear infinite;}
+  .swirl.b{width:50vw;height:50vw;right:-12vw;top:25vh;
+    background:conic-gradient(from 90deg,#13325f,#ff9d3c33,#2a6fd6,#13325f);
+    animation:spin 90s linear infinite reverse;}
+  .swirl.c{width:45vw;height:45vw;left:20vw;bottom:-20vw;
+    background:conic-gradient(from 200deg,#0e1d44,#2a6fd6,#1b4a8a,#0e1d44);
+    animation:spin 75s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  /* glowing moon */
+  .moon{position:fixed;top:9vh;right:9vw;width:90px;height:90px;border-radius:50%;z-index:-2;
+    background:radial-gradient(circle at 38% 38%, #fff3d6, var(--gold) 45%, var(--orange) 80%);
+    box-shadow:0 0 60px 18px rgba(255,160,60,.35),0 0 140px 50px rgba(255,180,80,.18);
+    animation:pulse 7s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
 
-  /* Sections */
-  section { padding: 32px 0; }
-  h2 {
-    font-size: 14px; text-transform: uppercase; letter-spacing: 0.08em;
-    color: var(--muted); font-weight: 600; margin-bottom: 24px;
-  }
+  /* ---------- nav ---------- */
+  nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+    padding:16px 28px;backdrop-filter:blur(12px);background:rgba(6,12,28,.55);
+    border-bottom:1px solid var(--border);}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:.5px;font-size:17px;text-decoration:none;color:var(--text)}
+  .brand .orb{width:26px;height:26px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%,#fff3d6,var(--orange) 55%,#b85c14);
+    box-shadow:0 0 14px rgba(255,150,50,.6);}
+  .brand small{color:var(--blue);font-weight:600;font-size:12px;letter-spacing:1.5px}
+  .nav-links{display:flex;gap:26px}
+  .nav-links a{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500;transition:color .2s}
+  .nav-links a:hover{color:var(--text)}
+  @media(max-width:640px){.nav-links{display:none}}
 
-  /* Project cards */
-  .grid { display: grid; gap: 16px; }
-  .card {
-    background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
-    padding: 24px; transition: background .15s, border-color .15s, transform .15s;
-  }
-  .card:hover { background: var(--panel-hover); border-color: #333a45; transform: translateY(-2px); }
-  .card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-  .card h3 { font-size: 20px; font-weight: 650; }
-  .badge {
-    font-size: 12px; font-weight: 600; color: var(--accent);
-    background: var(--accent-soft); padding: 3px 10px; border-radius: 999px; white-space: nowrap;
-  }
-  .card p { color: var(--muted); margin-top: 10px; font-size: 15px; }
-  .card-actions { margin-top: 18px; display: flex; gap: 10px; flex-wrap: wrap; }
-  .card-actions a {
-    font-size: 13px; font-weight: 600; text-decoration: none; color: var(--text);
-    padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border);
-    transition: border-color .15s, background .15s;
-  }
-  .card-actions a:hover { border-color: var(--accent); background: var(--accent-soft); }
-  .card-actions a.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .card-actions a.primary:hover { filter: brightness(1.1); }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
 
-  footer { padding: 56px 0 80px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--border); margin-top: 32px; }
-  footer a { color: var(--muted); }
+  /* ---------- hero ---------- */
+  header.hero{padding:120px 0 90px;text-align:center;position:relative}
+  .kicker{display:inline-flex;align-items:center;gap:9px;padding:7px 16px;border:1px solid var(--border);
+    border-radius:999px;font-size:12.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--orange-soft);
+    background:rgba(255,160,60,.06);margin-bottom:26px}
+  .kicker .dot{width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 10px var(--orange)}
+  header.hero h1{font-size:clamp(46px,9vw,92px);line-height:1.04;font-weight:700;letter-spacing:-.02em}
+  header.hero h1 .grad{background:linear-gradient(100deg,var(--blue) 0%,#a9cbff 35%,var(--orange-soft) 75%,var(--orange) 100%);
+    -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+  header.hero .sub{margin:24px auto 0;max-width:640px;font-size:clamp(17px,2.4vw,21px);color:var(--muted)}
+  .tags{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:30px}
+  .tags span{font-size:13px;font-weight:600;padding:7px 15px;border-radius:999px;border:1px solid var(--border);color:var(--text);
+    background:var(--panel);backdrop-filter:blur(6px)}
+  .tags span:nth-child(odd){border-color:rgba(255,160,60,.3)}
+  .cta{display:flex;gap:14px;justify-content:center;margin-top:38px;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:9px;padding:14px 26px;border-radius:12px;font-weight:600;font-size:15px;
+    text-decoration:none;transition:transform .18s,box-shadow .18s,background .18s,border-color .18s;cursor:pointer;border:1px solid transparent}
+  .btn-primary{background:linear-gradient(100deg,var(--orange),#ff7a1a);color:#1a0e02;box-shadow:0 8px 30px rgba(255,140,40,.35)}
+  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(255,140,40,.5)}
+  .btn-ghost{background:var(--panel);border-color:var(--border);color:var(--text);backdrop-filter:blur(6px)}
+  .btn-ghost:hover{transform:translateY(-3px);border-color:var(--border-hover);background:rgba(78,161,255,.12)}
 
-  @media (max-width: 560px) {
-    header { padding: 64px 0 32px; }
-    h1 { font-size: 34px; }
-  }
+  /* ---------- section scaffolding ---------- */
+  section{padding:64px 0;position:relative}
+  .eyebrow{font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--blue);font-weight:600;margin-bottom:14px}
+  .sec-title{font-size:clamp(30px,5vw,46px);font-weight:700;letter-spacing:-.01em;line-height:1.1}
+
+  /* ---------- about ---------- */
+  .about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:center}
+  .about p{color:var(--muted);font-size:17px;margin-top:18px}
+  .about strong{color:var(--text);font-weight:600}
+  .pillars{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .pillar{padding:20px;border:1px solid var(--border);border-radius:16px;background:var(--panel);backdrop-filter:blur(8px);transition:transform .2s,border-color .2s}
+  .pillar:hover{transform:translateY(-4px);border-color:var(--border-hover)}
+  .pillar .ic{font-size:24px}
+  .pillar h4{margin-top:10px;font-size:16px}
+  .pillar p{font-size:13.5px;color:var(--muted);margin-top:4px}
+  @media(max-width:760px){.about-grid{grid-template-columns:1fr;gap:32px}}
+
+  /* ---------- feature blocks ---------- */
+  .feature{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center;
+    padding:34px;border:1px solid var(--border);border-radius:24px;background:var(--panel);backdrop-filter:blur(10px);
+    margin-top:30px;transition:border-color .25s,transform .25s}
+  .feature:hover{border-color:var(--border-hover)}
+  .feature.flip .media{order:2}
+  .feature .media{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/3;background:#091025;
+    border:1px solid var(--border)}
+  .feature .media img,.feature .media video{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+  .feature:hover .media img,.feature:hover .media video{transform:scale(1.05)}
+  .feature .badge{position:absolute;top:14px;left:14px;font-size:12px;font-weight:700;letter-spacing:.5px;
+    padding:6px 13px;border-radius:999px;background:rgba(6,12,28,.7);backdrop-filter:blur(6px);border:1px solid var(--border)}
+  .feature .badge.blue{color:var(--blue)} .feature .badge.orange{color:var(--orange-soft);border-color:rgba(255,160,60,.4)}
+  .feature h3{font-size:28px;font-weight:700;letter-spacing:-.01em}
+  .feature .role{display:inline-block;margin-top:8px;font-size:12.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--orange)}
+  .feature p{color:var(--muted);margin-top:14px;font-size:15.5px}
+  .feature .acts{margin-top:22px;display:flex;gap:12px;flex-wrap:wrap}
+  .pill{font-size:12px;font-weight:600;color:var(--muted);padding:5px 12px;border:1px solid var(--border);border-radius:999px}
+  .stack{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  @media(max-width:760px){.feature{grid-template-columns:1fr;gap:24px;padding:22px}.feature.flip .media{order:0}}
+
+  /* texture gallery */
+  .tex-gallery{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px}
+  .tex-gallery img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:1px solid var(--border);transition:transform .3s}
+  .tex-gallery img:hover{transform:scale(1.06)}
+  @media(max-width:520px){.tex-gallery{grid-template-columns:repeat(2,1fr)}}
+  .codeline{margin-top:18px;font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--blue);
+    background:rgba(6,12,28,.6);border:1px solid var(--border);border-radius:10px;padding:11px 14px;overflow-x:auto;white-space:nowrap}
+
+  /* ---------- footer ---------- */
+  footer{padding:60px 0 70px;border-top:1px solid var(--border);margin-top:40px;text-align:center}
+  footer .big{font-size:clamp(26px,5vw,40px);font-weight:700}
+  footer .muted{color:var(--muted);margin-top:14px;font-size:15px}
+  footer .links{display:flex;gap:22px;justify-content:center;margin-top:24px}
+  footer .links a{color:var(--blue);text-decoration:none;font-weight:600;font-size:15px}
+  footer .links a:hover{color:var(--orange-soft)}
+  footer .fine{margin-top:30px;font-size:13px;color:var(--muted);opacity:.7}
+
+  /* ---------- reveal animation ---------- */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .reveal.in{opacity:1;transform:none}
 </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="eyebrow">Blender Add-ons &amp; 3D Tools</div>
-      <h1>Hi, I'm Leo Hu.</h1>
-      <p class="tagline">
-        I build Blender add-ons, 3D pipeline tools, and accessibility projects —
-        from AI mascot overlays to tactile learning aids for blind students.
-      </p>
+  <div id="sky"></div>
+  <canvas id="stars"></canvas>
+  <div class="swirl a"></div><div class="swirl b"></div><div class="swirl c"></div>
+  <div class="moon"></div>
+
+  <nav>
+    <a class="brand" href="#top"><span class="orb"></span>Leo&nbsp;Hu <small>· LEO</small></a>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#nathan">Nathan&nbsp;Road</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="wrap">
+      <span class="kicker reveal"><span class="dot"></span>lowearthorbit.cc</span>
+      <h1 class="reveal">Building things across<br><span class="grad serif">light, logic &amp; matter.</span></h1>
+      <p class="sub reveal">I'm <strong style="color:var(--text)">Leo Hu</strong> — a high-school maker exploring computer graphics, FPGA design, engineering, and chemistry. I render cities, design printable tools for blind learners, and teach machines to make textures.</p>
+      <div class="tags reveal">
+        <span>Computer Graphics</span><span>FPGA</span><span>Engineering</span><span>Chemistry</span>
+      </div>
+      <div class="cta reveal">
+        <a class="btn btn-primary" href="#nathan">↓ Download Nathan Road scene</a>
+        <a class="btn btn-ghost" href="#work">Explore the work</a>
+      </div>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="wrap about-grid">
+      <div class="about reveal">
+        <div class="eyebrow">About</div>
+        <h2 class="sec-title">A high-schooler who likes to <span class="serif" style="color:var(--orange-soft)">make</span>.</h2>
+        <p>I'm a high school student fascinated by how things work — from the <strong>shaders</strong> that paint a virtual rainstorm, to the <strong>gates inside an FPGA</strong>, to the <strong>reactions</strong> on a lab bench. I like projects that sit at the seams between disciplines.</p>
+        <p>Most of what I build starts as curiosity and turns into a tool someone can actually use. The pieces below are three of my favorites: a cinematic 3D scene, an accessibility tool for blind learners, and an AI-driven texture generator.</p>
+      </div>
+      <div class="pillars reveal">
+        <div class="pillar"><div class="ic">🎨</div><h4>Computer Graphics</h4><p>Blender scenes, shaders, rendering &amp; pipelines.</p></div>
+        <div class="pillar"><div class="ic">🔧</div><h4>FPGA</h4><p>Digital logic, HDL, hardware that thinks in parallel.</p></div>
+        <div class="pillar"><div class="ic">⚙️</div><h4>Engineering</h4><p>Designing, building, and 3D-printing real objects.</p></div>
+        <div class="pillar"><div class="ic">🧪</div><h4>Chemistry</h4><p>Reactions, materials, and the matter behind it all.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="wrap">
+      <div class="reveal">
+        <div class="eyebrow">Selected Work</div>
+        <h2 class="sec-title">Three things I made.</h2>
+      </div>
+
+      <!-- Nathan Road -->
+      <article class="feature reveal" id="nathan">
+        <div class="media">
+          <span class="badge orange">Blender · Downloadable</span>
+          <video autoplay muted loop playsinline poster="assets/nathan_road.png">
+            <source src="assets/nathan_loop.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div>
+          <h3 class="serif">Nathan Road, Hong Kong</h3>
+          <span class="role">3D Scene · Download &amp; open in Blender</span>
+          <p>A rain-soaked, neon-drenched recreation of a Hong Kong street at night — hand-built signage in real Chinese type, a red taxi tearing through reflections, volumetric haze, and a fluid-sim splash. The full <code>.blend</code> is yours to open, study, and remix.</p>
+          <div class="stack">
+            <span class="pill">Cycles</span><span class="pill">Fluid sim</span><span class="pill">Custom signage</span><span class="pill">~125&nbsp;MB</span>
+          </div>
+          <div class="acts">
+            <a class="btn btn-primary" href="https://github.com/leoeohu/leoeohu.github.io/releases/download/nathan-road-v1/nathan_road_hk.blend">↓ Download .blend</a>
+            <a class="btn btn-ghost" href="https://github.com/leoeohu/leoeohu.github.io/releases/tag/nathan-road-v1">Release notes</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Tactile tool -->
+      <article class="feature flip reveal">
+        <div class="media">
+          <span class="badge blue">Accessibility · Open tool</span>
+          <img src="assets/tactile_relief.png" alt="Tactile relief plate preview">
+        </div>
+        <div>
+          <h3 class="serif">Tactile Learning Tool</h3>
+          <span class="role">For blind learners · Access on GitHub</span>
+          <p>Turns an idea or a reference image into a 3D-printable <strong>tactile relief plate</strong> for blind students — plus standard-spaced <strong>Braille / 盲文</strong> labels. AI generates a clean line drawing, a height map becomes an embossed solid, and Blender exports a watertight, flat-bottomed STL that prints support-free.</p>
+          <div class="stack">
+            <span class="pill">Python</span><span class="pill">Blender displace</span><span class="pill">Braille / 盲文</span><span class="pill">STL export</span>
+          </div>
+          <div class="acts">
+            <a class="btn btn-primary" href="https://github.com/leoeohu/tactile-braille-maker">↗ Access on GitHub</a>
+            <a class="btn btn-ghost" href="https://github.com/leoeohu/tactile-braille-maker#readme">How it works</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Texture generator -->
+      <article class="feature reveal">
+        <div>
+          <h3 class="serif">AI Texture Generator</h3>
+          <span class="role">Blender add-on · Preview only</span>
+          <p>A small tool that turns a text prompt into a <strong>seamless, tileable PBR-ready texture</strong> and drops it straight onto a material — copper, marble, brick, woven linen, anything you can describe. Below are four samples it generated. This one's a peek behind the curtain rather than a download.</p>
+          <div class="tex-gallery">
+            <img src="assets/tex_copper.png" alt="generated copper texture">
+            <img src="assets/tex_marble.png" alt="generated marble texture">
+            <img src="assets/tex_brick.png" alt="generated brick texture">
+            <img src="assets/tex_fabric.png" alt="generated linen texture">
+          </div>
+          <div class="codeline">$ gen_texture.py "polished carrara marble, seamless tileable" → marble.png</div>
+          <div class="acts"><span class="pill">View / introduction only — not yet released</span></div>
+        </div>
+        <div class="media">
+          <span class="badge blue">Generator · Preview</span>
+          <img src="assets/tex_copper.png" alt="texture generator output">
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="wrap">
+      <div class="big serif">Let's make something.</div>
+      <p class="muted">Reach me, or take a look at the rest of my code.</p>
       <div class="links">
-        <a href="https://github.com/leoeohu">GitHub</a>
         <a href="mailto:leoh949494@gmail.com">Email</a>
+        <a href="https://github.com/leoeohu">GitHub</a>
       </div>
-    </header>
+      <p class="fine">© <span id="year"></span> Leo Hu · <span style="color:var(--orange-soft)">LEO</span> — Low Earth Orbit · lowearthorbit.cc</p>
+    </div>
+  </footer>
 
-    <section>
-      <h2>Projects</h2>
-      <div class="grid">
+<script>
+  document.getElementById('year').textContent=new Date().getFullYear();
 
-        <article class="card">
-          <div class="card-head">
-            <h3>Blender-chan</h3>
-            <span class="badge">Blender Add-on</span>
-          </div>
-          <p>
-            An AI mascot that lives as a 2D-sprite overlay across all your Blender projects.
-            A modal + supervisor system drives sprites baked straight from a character rig.
-          </p>
-          <div class="card-actions">
-            <a class="primary" href="#">Download</a>
-            <a href="#">Source</a>
-          </div>
-        </article>
+  /* ---- twinkling starfield + occasional shooting star ---- */
+  const c=document.getElementById('stars'),x=c.getContext('2d');
+  let w,h,stars,shoot=null;
+  const PALETTE=['#ffffff','#ffd27a','#ff9d3c','#9fc6ff','#4ea1ff'];
+  function resize(){w=c.width=innerWidth;h=c.height=innerHeight;
+    const n=Math.min(220,Math.floor(w*h/9000));
+    stars=Array.from({length:n},()=>({x:Math.random()*w,y:Math.random()*h,
+      r:Math.random()*1.6+.3,base:Math.random()*.6+.2,
+      tw:Math.random()*2*Math.PI,sp:Math.random()*.02+.005,
+      col:PALETTE[Math.floor(Math.random()*PALETTE.length)]}));}
+  resize();addEventListener('resize',resize);
+  function maybeShoot(){if(!shoot&&Math.random()<.004){
+    shoot={x:Math.random()*w*.6,y:Math.random()*h*.4,len:0,ang:Math.PI/4+ (Math.random()*.3-.15),life:0};}}
+  function draw(){x.clearRect(0,0,w,h);
+    for(const s of stars){s.tw+=s.sp;const a=s.base+Math.sin(s.tw)*.35;
+      x.globalAlpha=Math.max(0,Math.min(1,a));x.beginPath();
+      x.arc(s.x,s.y,s.r,0,7);x.fillStyle=s.col;
+      x.shadowBlur=s.r*4;x.shadowColor=s.col;x.fill();}
+    x.shadowBlur=0;x.globalAlpha=1;
+    maybeShoot();
+    if(shoot){shoot.life++;shoot.len=Math.min(160,shoot.len+9);
+      const dx=Math.cos(shoot.ang),dy=Math.sin(shoot.ang);
+      const ex=shoot.x+dx*shoot.life*9,ey=shoot.y+dy*shoot.life*9;
+      const g=x.createLinearGradient(ex-dx*shoot.len,ey-dy*shoot.len,ex,ey);
+      g.addColorStop(0,'rgba(255,210,120,0)');g.addColorStop(1,'rgba(255,220,150,.9)');
+      x.strokeStyle=g;x.lineWidth=2;x.beginPath();
+      x.moveTo(ex-dx*shoot.len,ey-dy*shoot.len);x.lineTo(ex,ey);x.stroke();
+      if(ex>w||ey>h||shoot.life>60)shoot=null;}
+    requestAnimationFrame(draw);}
+  draw();
 
-        <article class="card">
-          <div class="card-head">
-            <h3>Tactile Learning Tool</h3>
-            <span class="badge">Accessibility</span>
-          </div>
-          <p>
-            Turns an idea or image into a 3D-printable relief STL, plus generated Braille
-            label tiles — built to make visual material tangible for blind learners.
-          </p>
-          <div class="card-actions">
-            <a class="primary" href="#">Download</a>
-            <a href="#">Source</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-head">
-            <h3>Cyber Elevator Scene</h3>
-            <span class="badge">3D / Render</span>
-          </div>
-          <p>
-            A cinematic ascent scene with volumetric smog, a custom camera driver, and a
-            neon-lit cyberpunk shaft. Built in Blender.
-          </p>
-          <div class="card-actions">
-            <a href="#">View renders</a>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-head">
-            <h3>Elephant Charity Bead</h3>
-            <span class="badge">3D Print</span>
-          </div>
-          <p>
-            A printable barrel charm bead with a wrapped elephant relief — designed for a
-            charity bracelet. STL included.
-          </p>
-          <div class="card-actions">
-            <a class="primary" href="#">Download STL</a>
-          </div>
-        </article>
-
-      </div>
-    </section>
-
-    <footer>
-      © <span id="year"></span> Leo Hu · Built as a static site, hosted on GitHub Pages.
-    </footer>
-  </div>
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  /* ---- scroll reveal ---- */
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.15});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*60)+'ms';io.observe(el);});
+</script>
 </body>
 </html>
